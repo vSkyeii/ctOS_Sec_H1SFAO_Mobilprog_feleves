@@ -7,8 +7,7 @@
     Title="ctOS_Sec_H1SFAO_Mobilprog_feleves">
 
     <ShellContent
-        Title="Home"
+        Title="Welcome to ctOS Security!"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
-
 </Shell>
