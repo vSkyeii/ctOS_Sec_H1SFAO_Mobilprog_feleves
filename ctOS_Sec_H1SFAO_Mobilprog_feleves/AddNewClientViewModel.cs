@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
 {
-    [ObservableObject]
     public partial class AddNewClientViewModel : ObservableObject
     {
         private readonly IctOSDatabase db;
@@ -33,6 +32,7 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
                 Address = Address
 
             });
+            await Shell.Current.GoToAsync("..");
         }
     }
 }

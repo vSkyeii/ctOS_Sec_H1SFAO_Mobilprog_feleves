@@ -35,23 +35,33 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
                     return;
                 }
 
-                // 2) Client próbálkozás
-                int clientuser;
-                if (int.TryParse(username, out clientuser))
+                if (int.TryParse(username, out int clientuser))
                 {
                     var client = await database.GetClientDataByIdAsync(clientuser);
-                    if (client != null && password == client.Password)
+                    // Add debug information
+                    System.Diagnostics.Debug.WriteLine($"Attempting login with ID: {clientuser}");
+                    System.Diagnostics.Debug.WriteLine($"Client found: {client != null}");
+                    if (client != null)
                     {
-                        await Shell.Current.GoToAsync($"//Client?userId={client.Id}");
-                        return;
+                        System.Diagnostics.Debug.WriteLine($"Client password: {client.Password}, Entered password: {password}");
+                        // Use string comparison to ensure exact match
+                        if (string.Equals(password, client.Password, StringComparison.Ordinal))
+                        {
+                            await Shell.Current.GoToAsync($"//Client?userId={client.Id}");
+                            return;
+                        }
                     }
+                    ErrorMessage = "Hibás felhasználónév vagy jelszó.";
                 }
-                ErrorMessage = "Hibás felhasználónév vagy jelszó.";
+                else
+                {
+                    ErrorMessage = "A felhasználónévnek számnak kell lennie.";
+                }
             }
             catch (Exception ex)
             {
                 ErrorMessage = "Bejelentkezési hiba. Próbáld újra.";
-                System.Diagnostics.Debug.WriteLine(ex);
+                System.Diagnostics.Debug.WriteLine($"Login error: {ex}");
             }
             finally
             {

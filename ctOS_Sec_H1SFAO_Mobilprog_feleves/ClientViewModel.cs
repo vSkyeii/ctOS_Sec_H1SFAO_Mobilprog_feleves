@@ -39,6 +39,7 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
         {
             this.database = database;
             Devices = new ObservableCollection<Device>();
+            
         }
         public async Task InitializeAsync()
         {

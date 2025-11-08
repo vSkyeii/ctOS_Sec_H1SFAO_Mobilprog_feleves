@@ -34,7 +34,7 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
 
         public async Task DeleteClientAsync(Client client)
         {
-            await database.ExecuteAsync("DELETE FROM Device WHERE ClientId = ?", client.Id);
+            await database.ExecuteAsync("DELETE FROM Device WHERE Id = (SELECT Deviceid FROM Client Where Id= ?)", client.Id);
             await database.ExecuteAsync("DELETE FROM Client WHERE Id = ?", client.Id);
         }
 

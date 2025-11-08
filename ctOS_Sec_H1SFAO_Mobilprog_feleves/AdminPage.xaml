@@ -13,14 +13,22 @@
         </HorizontalStackLayout>
 
         <CollectionView ItemsSource="{Binding Clients}"
-                        SelectionMode="Single">
+                        SelectionMode="Single"
+                        SelectedItem="{Binding SelectedClient}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Padding="8" ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+                    <Grid Padding="8" ColumnDefinitions="*,*,Auto" RowDefinitions="Auto,Auto">
                         <Label Grid.Row="0" Grid.Column="0" Text="{Binding Name}" FontAttributes="Bold"/>
                         <Label Grid.Row="1" Grid.Column="0" Text="{Binding Email}"/>
-                        <Label Grid.RowSpan="2" Grid.Column="1" Text="{Binding Deviceid}" Opacity="0.6"
-                               HorizontalTextAlignment="End"/>
+                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding Address}"/>
+                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding Id}"/>
+                        
+                        <Button Grid.RowSpan="2" Grid.Column="2" Text="Delete"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteClientCommand}" />
+                        <Button Grid.RowSpan="2" Grid.Column="2" Text="Edit" 
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteClientCommand}" />
+                        <Button Grid.RowSpan="2" Grid.Column="2" Text="Check Details" 
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteClientCommand}" />
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

@@ -9,7 +9,7 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
         public ObservableCollection<Client> Clients { get; set; }
 
         [ObservableProperty]
-        private Client? selectedClient;
+        private Client selectedClient;
 
         public AdminViewModel(IctOSDatabase database)
         {
@@ -26,9 +26,22 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
         }
 
         [RelayCommand]
-        private Task AddNewClientAsync()
+        private async Task AddNewClientAsync()
         {
-            return Shell.Current.GoToAsync("newclient");
+            await Shell.Current.GoToAsync("newclient");
+            await LoadClientsAsync();
+
+        }
+        [RelayCommand]
+        private async Task DeleteClientAsync()
+        {
+            if (SelectedClient != null)
+            {
+                await database.DeleteClientAsync(SelectedClient);
+                Clients.Remove(SelectedClient);
+                SelectedClient = null;
+                await LoadClientsAsync();
+            }
         }
     }
 }
