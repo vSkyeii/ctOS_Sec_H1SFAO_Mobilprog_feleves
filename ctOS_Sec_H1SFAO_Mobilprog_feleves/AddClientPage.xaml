@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ctOS_Sec_H1SFAO_Mobilprog_feleves.AddClientPage"
+             Title="Új kliens">
+    <VerticalStackLayout Padding="16" Spacing="12">
+        <Entry Placeholder="Név" Text="{Binding Name}" />
+        <Entry Placeholder="Email" Text="{Binding Email}" Keyboard="Email" />
+        <Entry Placeholder="Device ID" Text="{Binding Deviceid}" />
+        <Button Text="Mentés" Command="{Binding SaveCommand}" />
+    </VerticalStackLayout>
+</ContentPage>

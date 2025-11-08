@@ -18,7 +18,6 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
         {
             database = new SQLiteAsyncConnection(databasePath, Flags);
             database.CreateTableAsync<Client>().Wait();
-            database.CreateTableAsync<Admin>().Wait(); 
             database.CreateTableAsync<Device>().Wait();
 
         }

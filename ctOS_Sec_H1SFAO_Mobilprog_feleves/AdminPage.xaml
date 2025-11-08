@@ -2,14 +2,29 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ctOS_Sec_H1SFAO_Mobilprog_feleves.AdminPage"
-             Title="AdminPage">
-    <Shell.BackButtonBehavior>
-        <BackButtonBehavior IsVisible="False" />
-    </Shell.BackButtonBehavior>
-    <VerticalStackLayout>
-        <Label 
-            Text="adminok vagyunk dik"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+             Title="Admin – Kliensek">
+    <VerticalStackLayout Padding="16" Spacing="12">
+
+        <HorizontalStackLayout Spacing="12">
+            <Button Text="Betöltés"
+                    Command="{Binding LoadClientsCommand}" />
+            <Button Text="Új kliens"
+                    Command="{Binding AddNewClientCommand}" />
+        </HorizontalStackLayout>
+
+        <CollectionView ItemsSource="{Binding Clients}"
+                        SelectionMode="Single">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="8" ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+                        <Label Grid.Row="0" Grid.Column="0" Text="{Binding Name}" FontAttributes="Bold"/>
+                        <Label Grid.Row="1" Grid.Column="0" Text="{Binding Email}"/>
+                        <Label Grid.RowSpan="2" Grid.Column="1" Text="{Binding Deviceid}" Opacity="0.6"
+                               HorizontalTextAlignment="End"/>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
     </VerticalStackLayout>
 </ContentPage>

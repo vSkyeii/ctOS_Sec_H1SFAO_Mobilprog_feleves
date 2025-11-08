@@ -21,10 +21,8 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
         [ObservableProperty]
         string address;
         [ObservableProperty]
-        string deviceid;
+        string? deviceid;
         [ObservableProperty]
-        int adminID;
-        [ObservableProperty]
-        string password;
+        string? password;
     }
 }

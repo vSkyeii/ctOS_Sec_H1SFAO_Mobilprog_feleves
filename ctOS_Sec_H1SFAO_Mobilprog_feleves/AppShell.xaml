@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:ctOS_Sec_H1SFAO_Mobilprog_feleves"
+    xmlns:views="clr-namespace:ctOS_Sec_H1SFAO_Mobilprog_feleves"
     Title="ctOS_Sec_H1SFAO_Mobilprog_feleves">
 
     <ShellContent
