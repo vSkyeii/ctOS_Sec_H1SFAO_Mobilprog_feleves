@@ -7,6 +7,7 @@
             InitializeComponent();
             Routing.RegisterRoute("Client", typeof(ClientPage));
             Routing.RegisterRoute("Admin", typeof(AdminPage));
+            Routing.RegisterRoute("ClientDetail", typeof(ClientDetailPage));
         }
     }
 }

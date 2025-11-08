@@ -13,7 +13,7 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
         [ObservableProperty]
         [property:PrimaryKey]
         [property:AutoIncrement]
-        string id;
+        int id;
         [ObservableProperty]
         string name;
         [ObservableProperty]
@@ -21,8 +21,10 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
         [ObservableProperty]
         string address;
         [ObservableProperty]
-        List<Device> devices;
+        string deviceid;
         [ObservableProperty]
         int adminID;
+        [ObservableProperty]
+        string password;
     }
 }

@@ -12,8 +12,7 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
         SQLiteOpenFlags Flags =
             SQLiteOpenFlags.ReadWrite |
             SQLiteOpenFlags.Create;
-        string databasePath =
-        Path.Combine(FileSystem.Current.AppDataDirectory, "ctOSSec.db3");
+        string databasePath = Path.Combine(FileSystem.Current.AppDataDirectory, "ctOSSec.db3");
         SQLiteAsyncConnection database;
         public ctOsDatabase()
         {
@@ -23,89 +22,62 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
             database.CreateTableAsync<Device>().Wait();
 
         }
-        public async Task AddClientToAdminAsync(Admin admin)
+
+        public async Task CreateClientAsync(Client client)
         {
-            throw new NotImplementedException();
+            await database.InsertAsync(client);
         }
 
-        public Task AddDeviceToClientAsync(Client client)
+        public async Task CreateDeviceAsync(Device d)
         {
-            throw new NotImplementedException();
+            await database.InsertAsync(d);
         }
 
-        public Task CreateAdminAsync(Admin admin)
+        public async Task DeleteClientAsync(Client client)
         {
-            throw new NotImplementedException();
+            await database.ExecuteAsync("DELETE FROM Device WHERE ClientId = ?", client.Id);
+            await database.ExecuteAsync("DELETE FROM Client WHERE Id = ?", client.Id);
         }
 
-        public Task CreateClientAsync(Client client)
+        public async Task DeleteDeviceAsync(Device d)
         {
-            throw new NotImplementedException();
+            await database.DeleteAsync(d);
         }
 
-        public Task DeleteAdminAsync(Admin admin)
+        public Task<Client> GetClientDataByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return database.Table<Client>().Where(c => c.Id == id).FirstOrDefaultAsync();
         }
 
-        public Task DeleteClientAsync(Client client)
+        public async Task<List<int>>GetClientDevicesByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            if (id <= 0)
+                throw new ArgumentException("Érvénytelen Client ID.", nameof(id));
+
+            // Lekérdezés a Device táblából az adott ClientId alapján
+            var devices = await database.Table<Device>().Where(d => d.Id == id).OrderBy(d => d.Name).ToListAsync();
+            var deviceIds = devices.Select(d => d.Id).ToList();
+            return deviceIds;
         }
 
-        public Task DeleteClientFromAdminAsync(Admin admin)
+        public Task<List<Client>> GetClientsAsync()
         {
-            throw new NotImplementedException();
+            return database.Table<Client>().ToListAsync();
         }
 
-        public Task DeleteDeviceFromClientAsync(Client client)
+        public Task<List<Device>> GetDevicesAsync()
         {
-            throw new NotImplementedException();
+            return database.Table<Device>().ToListAsync();
         }
 
-        public Task<Admin> GetAdminByIdAsync(int id)
+        public async Task UpdateClientAsync(Client client)
         {
-            throw new NotImplementedException();
+            await database.UpdateAsync(client);
         }
 
-        public Task<List<Admin>> GetAdminsAsync()
+        public async Task UpdateDeviceAsync(Device d)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<Client> GetClientByIdAsync(string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Client> GetClientByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<List<Client>> GetClientsAsync()
-        {
-            return await database.Table<Client>().ToListAsync();
-        }
-
-        public Task UpdateAdminAsync(Admin admin)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateClientAsync(Client client)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateClientToAdminAsync(Admin admin)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateDeviceToClientAsync(Client client)
-        {
-            throw new NotImplementedException();
+            await database.UpdateAsync(d);
         }
     }
 }

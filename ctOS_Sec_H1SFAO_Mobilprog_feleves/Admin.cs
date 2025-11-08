@@ -16,6 +16,6 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
         [ObservableProperty]
         string email;
         [ObservableProperty]
-        List<Client> clients;
+        string clientid;
     }
 }

@@ -8,21 +8,15 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
 {
     public interface IctOSDatabase
     {
-        Task<List<Admin>> GetAdminsAsync();
         Task<List<Client>> GetClientsAsync();
-        Task<Admin> GetAdminByIdAsync(int id);
-        Task<Client> GetClientByIdAsync(int id);
+        Task<Client> GetClientDataByIdAsync(int id);
+        Task<List<int>> GetClientDevicesByIdAsync(int id);
+        Task<List<Device>> GetDevicesAsync();
         Task CreateClientAsync(Client client);
         Task UpdateClientAsync(Client client);
         Task DeleteClientAsync(Client client);
-        Task AddDeviceToClientAsync(Client client);
-        Task UpdateDeviceToClientAsync(Client client);
-        Task DeleteDeviceFromClientAsync(Client client);
-        Task AddClientToAdminAsync(Admin admin);
-        Task UpdateClientToAdminAsync(Admin admin);
-        Task DeleteClientFromAdminAsync(Admin admin);
-        Task CreateAdminAsync(Admin admin);
-        Task UpdateAdminAsync(Admin admin);
-        Task DeleteAdminAsync(Admin admin);
+        Task CreateDeviceAsync(Device d);
+        Task UpdateDeviceAsync(Device d);
+        Task DeleteDeviceAsync(Device d);
     }
 }

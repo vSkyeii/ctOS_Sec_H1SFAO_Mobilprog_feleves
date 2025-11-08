@@ -39,14 +39,19 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
         {
             this.database = database;
             Devices = new ObservableCollection<Device>();
-            //Devices.Add();
-            //Devices.Add();
         }
         public async Task InitializeAsync()
         {
-            var client = await database.GetClientByIdAsync(userid);
+            var devices = await database.GetDevicesAsync();
             Devices.Clear();
-            client.Devices.ForEach(p => Devices.Add(p));
+            var client_devices = await database.GetClientDevicesByIdAsync(userid);
+            foreach (var d in devices)
+            {
+                if (d != null && client_devices.Contains(d.Id))
+                {
+                    Devices.Add(d);
+                }
+            }
         }
     }
 }

@@ -6,9 +6,19 @@
     <VerticalStackLayout>
         <VerticalStackLayout>
             <Label Text="Login"  FontSize="36" HorizontalTextAlignment="Center" FontAttributes="Bold"></Label>
-            <Entry x:Name="username_entry" Placeholder="Username" Margin="100,10"></Entry>
-            <Entry x:Name="password_entry" Placeholder="Password" IsPassword="True" Margin="100,10"></Entry>
-            <Button Text="Login" Clicked="login_try" Margin="100,40"></Button>
+            <Entry 
+                x:Name="username_entry" 
+                Placeholder="Username" 
+                Margin="100,10"
+                Text="{Binding Username}"></Entry>
+            <Entry x:Name="password_entry" 
+                   Placeholder="Password" 
+                   IsPassword="True" Margin="100,10"
+                   Text="{Binding Password}"></Entry>
+            <Button Text="Login"
+                    Margin="100,40"
+                    Command="{Binding SignInCommand}"></Button>
+            <Label Text="{Binding ErrorMessage}" TextColor="Red" />
         </VerticalStackLayout>
     </VerticalStackLayout>
 
