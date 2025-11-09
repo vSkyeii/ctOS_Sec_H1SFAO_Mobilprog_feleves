@@ -14,11 +14,13 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
         private IctOSDatabase database;
         public ObservableCollection<Client> Clients { get; set; }
 
-        public MainPageViewModel(IctOSDatabase database)
+        public MainPageViewModel(IctOSDatabase database, IUserContext userContext)
         {
             this.database = database;
             Clients = new ObservableCollection<Client>();
+            this.userContext = userContext;
         }
+        private readonly IUserContext userContext;
         [ObservableProperty] private string username = string.Empty;
         [ObservableProperty] private string password = string.Empty;
         [ObservableProperty] private string? errorMessage;
@@ -38,16 +40,12 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
                 if (int.TryParse(username, out int clientuser))
                 {
                     var client = await database.GetClientDataByIdAsync(clientuser);
-                    // Add debug information
-                    System.Diagnostics.Debug.WriteLine($"Attempting login with ID: {clientuser}");
-                    System.Diagnostics.Debug.WriteLine($"Client found: {client != null}");
                     if (client != null)
                     {
-                        System.Diagnostics.Debug.WriteLine($"Client password: {client.Password}, Entered password: {password}");
-                        // Use string comparison to ensure exact match
-                        if (string.Equals(password, client.Password, StringComparison.Ordinal))
+                        if (password == client.Password)
                         {
-                            await Shell.Current.GoToAsync($"//Client?userId={client.Id}");
+                            userContext.Username = clientuser;
+                            await Shell.Current.GoToAsync("Client");
                             return;
                         }
                     }
@@ -61,11 +59,11 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
             catch (Exception ex)
             {
                 ErrorMessage = "Bejelentkezési hiba. Próbáld újra.";
-                System.Diagnostics.Debug.WriteLine($"Login error: {ex}");
             }
             finally
             {
                 Password = string.Empty;
+                Username = string.Empty;
             }
 
         }

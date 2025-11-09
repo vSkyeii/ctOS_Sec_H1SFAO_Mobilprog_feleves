@@ -48,15 +48,11 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
             return database.Table<Client>().Where(c => c.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<List<int>>GetClientDevicesByIdAsync(int id)
+        public async Task<List<Device>>GetClientDevicesByIdAsync(int id)
         {
-            if (id <= 0)
-                throw new ArgumentException("Érvénytelen Client ID.", nameof(id));
-
-            // Lekérdezés a Device táblából az adott ClientId alapján
-            var devices = await database.Table<Device>().Where(d => d.Id == id).OrderBy(d => d.Name).ToListAsync();
-            var deviceIds = devices.Select(d => d.Id).ToList();
-            return deviceIds;
+            if (id <= 0) throw new ArgumentException("Érvénytelen Client ID.", nameof(id));
+            var devices = await database.Table<Device>().Where(d => d.ClientId == id).OrderBy(d => d.Name).ToListAsync();
+            return devices;
         }
 
         public Task<List<Client>> GetClientsAsync()

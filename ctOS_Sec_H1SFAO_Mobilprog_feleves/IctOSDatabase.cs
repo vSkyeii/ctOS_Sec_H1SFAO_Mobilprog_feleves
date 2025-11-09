@@ -10,7 +10,7 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
     {
         Task<List<Client>> GetClientsAsync();
         Task<Client> GetClientDataByIdAsync(int id);
-        Task<List<int>> GetClientDevicesByIdAsync(int id);
+        Task<List<Device>> GetClientDevicesByIdAsync(int id);
         Task<List<Device>> GetDevicesAsync();
         Task CreateClientAsync(Client client);
         Task UpdateClientAsync(Client client);

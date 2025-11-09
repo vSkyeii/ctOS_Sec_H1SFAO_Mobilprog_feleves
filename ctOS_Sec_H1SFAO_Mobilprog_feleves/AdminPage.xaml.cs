@@ -7,4 +7,13 @@ public partial class AdminPage : ContentPage
 		InitializeComponent();
 		BindingContext = vm;
     }
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        if (BindingContext is AdminViewModel vm)
+        {
+            await vm.LoadClientsAsync();
+        }
+    }
+    
 }

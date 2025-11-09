@@ -18,7 +18,10 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
         [ObservableProperty] private string password;
         [ObservableProperty] private string address;
 
-        public AddNewClientViewModel(IctOSDatabase db) => this.db = db;
+        public AddNewClientViewModel(IctOSDatabase db)
+        {
+            this.db = db;
+        }
 
         [RelayCommand]
         private async Task SaveAsync()
@@ -27,7 +30,7 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
             {
                 Name = Name,
                 Email = Email,
-                Deviceid = Deviceid,
+                Deviceid = "",
                 Password = Password,
                 Address = Address
 

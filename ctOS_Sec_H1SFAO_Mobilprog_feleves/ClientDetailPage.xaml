@@ -1,12 +1,101 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ctOS_Sec_H1SFAO_Mobilprog_feleves"
+             xmlns:vm="clr-namespace:ctOS_Sec_H1SFAO_Mobilprog_feleves"
              x:Class="ctOS_Sec_H1SFAO_Mobilprog_feleves.ClientDetailPage"
-             Title="ClientDetailPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="Kliens részletei"
+             x:Name="ClientDetailPageRoot">
+
+    <ContentPage.Resources>
+        <local:InverseBoolConverter x:Key="InverseBoolConverter" />
+    </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Edit" 
+                     Command="{Binding ToggleEditCommand}"
+                     Priority="0"/>
+    </ContentPage.ToolbarItems>
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="14">
+            <VerticalStackLayout IsVisible="{Binding IsEditing, Converter={StaticResource InverseBoolConverter}}">
+                <Label Text="{Binding Name}"
+                     FontAttributes="Bold"
+                     FontSize="24"
+                     HorizontalTextAlignment="Center" />
+                <Label HorizontalOptions="Center" FontSize="16">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="ID: "/>
+                            <Span Text="{Binding Id}" />
+                            <Span Text="  •  " />
+                            <Span Text="{Binding Email}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label Text="{Binding Address}" HorizontalOptions="Center" />
+            </VerticalStackLayout>
+            <VerticalStackLayout IsVisible="{Binding IsEditing}">
+                <Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,*" RowSpacing="10" ColumnSpacing="10">
+                    <Label Grid.Row="0" Grid.Column="0" Text="Name:" VerticalOptions="Center" FontAttributes="Bold"/>
+                    <Entry Grid.Row="0" Grid.Column="1" Text="{Binding Name}" Placeholder="Teljes név"/>
+                    <Label Grid.Row="1" Grid.Column="0" Text="Email:" VerticalOptions="Center" FontAttributes="Bold"/>
+                    <Entry Grid.Row="1" Grid.Column="1" Text="{Binding Email}" Placeholder="Email cím" Keyboard="Email"/>
+                    <Label Grid.Row="2" Grid.Column="0" Text="Address:" VerticalOptions="Center" FontAttributes="Bold"/>
+                    <Entry Grid.Row="2" Grid.Column="1" Text="{Binding Address}" Placeholder="Cím"/>
+                    <Label Grid.Row="3" Grid.Column="0" Text="New Password:" VerticalOptions="Center" FontAttributes="Bold"/>
+                    <Entry Grid.Row="3" Grid.Column="1" Text="{Binding NewPassword}" IsPassword="True" Placeholder="Leave empty to keep old"/>
+                </Grid>
+                <Button Text="Save" 
+                        Command="{Binding SaveClientDetailsCommand}" 
+                        Margin="0, 10, 0, 0"
+                        HorizontalOptions="Fill"/>
+            </VerticalStackLayout>
+            <VerticalStackLayout Spacing="14" IsVisible="{Binding IsEditing, Converter={StaticResource InverseBoolConverter}}">
+                <Button Command="{Binding ToggleAddDeviceCommand}" HorizontalOptions="Fill">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding IsAddingDevice}" Value="True">
+                            <Setter Property="Text" Value="Cancel" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Button" Binding="{Binding IsAddingDevice}" Value="False">
+                            <Setter Property="Text" Value="Add Device" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+                <Grid ColumnDefinitions="*,Auto" IsVisible="{Binding IsAddingDevice}" ColumnSpacing="10">
+                    <VerticalStackLayout Grid.Column="0" Spacing="8">
+                        <Entry Placeholder="Name" Text="{Binding NewDeviceName}"/>
+                        <Picker Title="Type" 
+                                ItemsSource="{Binding DeviceTypes}"
+                                SelectedItem="{Binding NewDeviceType}"
+                                SelectedIndex="0"/>
+                    </VerticalStackLayout>
+                    <Button Grid.Column="1" Text="Mentés" 
+                            Command="{Binding SaveNewDeviceCommand}" 
+                            VerticalOptions="Start"
+                            HorizontalOptions="End"/>
+                </Grid>
+                <CollectionView ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" SelectionMode="Single" >
+                    <CollectionView.Header>
+                        <Label Text="DEvices" FontAttributes="Bold" Margin="0,8,0,4" />
+                    </CollectionView.Header>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:Device">
+                            <Frame Padding="10" BorderColor="#dddddd" Margin="0,0,0,8" HasShadow="False">
+                                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding Name}" FontAttributes="Bold"/>
+                                    <Label Grid.Row="1" Grid.Column="0" Text="{Binding Type}" Opacity="0.7"/>
+                                    <VerticalStackLayout Grid.RowSpan="2" Grid.Column="1" Spacing="2" HorizontalOptions="End">
+                                        <Button Text="Delete" 
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteDeviceCommand}"
+                                                CommandParameter="{Binding .}"/>
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

@@ -30,5 +30,7 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
         string name;
         [ObservableProperty]
         DeviceType type;
+        [ObservableProperty]
+        int clientId;
     }
 }

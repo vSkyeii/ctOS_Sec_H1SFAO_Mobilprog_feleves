@@ -6,19 +6,19 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
     public partial class AdminViewModel : ObservableObject
     {
         private IctOSDatabase database;
+        IUserContext userContext;
         public ObservableCollection<Client> Clients { get; set; }
 
         [ObservableProperty]
         private Client selectedClient;
-
-        public AdminViewModel(IctOSDatabase database)
+        public AdminViewModel(IctOSDatabase database, IUserContext userContext)
         {
             this.database = database;
+            this.userContext = userContext;
             Clients = new ObservableCollection<Client>();
-            Clients.Add(new Client { Address = "sigma street", Deviceid = "12", Email = "sigmamail@hh.com", Name = "sigma poeter", Password = "alma" });
         }
         [RelayCommand]
-        private async Task LoadClientsAsync()
+        public async Task LoadClientsAsync()
         {
             var items = await database.GetClientsAsync();
             Clients.Clear();
@@ -33,13 +33,25 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
 
         }
         [RelayCommand]
-        private async Task DeleteClientAsync()
+        private async Task ViewClientDetailsAsync(Client client)
         {
-            if (SelectedClient != null)
+            if (client != null)
             {
-                await database.DeleteClientAsync(SelectedClient);
-                Clients.Remove(SelectedClient);
-                SelectedClient = null;
+                userContext.SelectedClientId = client.Id;
+                await Shell.Current.GoToAsync("ClientDetail");
+            }
+        }
+        [RelayCommand]
+        private async Task DeleteClientAsync(Client client)
+        {
+            if (client != null)
+            {
+                await database.DeleteClientAsync(client);
+                Clients.Remove(client);
+                if (SelectedClient == client)
+                {
+                    SelectedClient = null;
+                }
                 await LoadClientsAsync();
             }
         }

@@ -15,6 +15,7 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
             builder.Services.AddSingleton<IctOSDatabase, ctOsDatabase>();
+            builder.Services.AddSingleton<IUserContext, UserContext>();
             builder.Services.AddTransient<ClientViewModel>();
             builder.Services.AddTransient<ClientPage>();
             builder.Services.AddTransient<MainPageViewModel>();
@@ -23,6 +24,8 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
             builder.Services.AddTransient<AdminPage>();
             builder.Services.AddTransient<AddClientPage>();
             builder.Services.AddTransient<AddNewClientViewModel>();
+            builder.Services.AddTransient<ClientDetailViewModel>();
+            builder.Services.AddSingleton<ClientDetailPage>();
 
 #if DEBUG
             builder.Logging.AddDebug();

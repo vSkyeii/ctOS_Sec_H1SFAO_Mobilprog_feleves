@@ -7,4 +7,12 @@ public partial class AddClientPage : ContentPage
         InitializeComponent();
         BindingContext = vm;
     }
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        if (BindingContext is ClientDetailViewModel vm)
+        {
+            await vm.LoadFromContextAsync();
+        }
+    }
 }
