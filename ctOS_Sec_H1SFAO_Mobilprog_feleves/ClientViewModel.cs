@@ -1,11 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Maui.Controls;
 
 namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
 {
@@ -13,27 +10,23 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
     {
         private IctOSDatabase database;
         private readonly IUserContext userContext;
-        public ObservableCollection<Device> Devices { get; set; }
+        public ObservableCollection<Device> Devices { get; } = new ObservableCollection<Device>();
 
         [ObservableProperty]
-        Client selectedDevice;
+        private Device selectedDevice;
         public bool IsFullViewEnabled
         {
-            get
-            {
-                return Preferences.Default.Get("fullview", true);
-            }
+            get => Preferences.Default.Get("fullview", true);
             set
             {
                 Preferences.Default.Set("fullview", value);
                 OnPropertyChanged();
             }
-
         }
+
         public ClientViewModel(IctOSDatabase database, IUserContext userContext)
         {
             this.database = database;
-            Devices = new ObservableCollection<Device>();
             this.userContext = userContext;
         }
         public async Task InitializeAsync()
@@ -44,6 +37,20 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
             {
                 Devices.Add(d);
             }
+        }
+
+        [RelayCommand]
+        private async Task ViewDeviceDetailsAsync(Device device)
+        {
+            if (device == null)
+            {
+                await Shell.Current.DisplayAlert("Hiba", "Válasszon eszközt a részletekhez.", "OK");
+                return;
+            }
+            userContext.SelectedDeviceId = device.Id;
+
+            await Shell.Current.GoToAsync("DeviceDetail");
+            SelectedDevice = null;
         }
     }
 }

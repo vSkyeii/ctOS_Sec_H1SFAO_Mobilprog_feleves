@@ -60,6 +60,11 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
             return database.Table<Client>().ToListAsync();
         }
 
+        public Task<Device> GetDeviceDataByIdAsync(int id)
+        {
+            return database.Table<Device>().Where(c => c.Id == id).FirstOrDefaultAsync();
+        }
+
         public Task<List<Device>> GetDevicesAsync()
         {
             return database.Table<Device>().ToListAsync();

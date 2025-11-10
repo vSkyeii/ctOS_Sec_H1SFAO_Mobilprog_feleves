@@ -10,5 +10,6 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
     {
         public int Username { get; set; }
         public int? SelectedClientId { get; set; }
+        public int? SelectedDeviceId { get; set; }
     }
 }

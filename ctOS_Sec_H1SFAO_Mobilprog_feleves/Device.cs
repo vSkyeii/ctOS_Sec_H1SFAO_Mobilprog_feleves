@@ -32,5 +32,7 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
         DeviceType type;
         [ObservableProperty]
         int clientId;
+        [ObservableProperty]
+        bool isOnline;
     }
 }

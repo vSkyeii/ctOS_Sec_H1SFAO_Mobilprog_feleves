@@ -25,7 +25,9 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
             builder.Services.AddTransient<AddClientPage>();
             builder.Services.AddTransient<AddNewClientViewModel>();
             builder.Services.AddTransient<ClientDetailViewModel>();
-            builder.Services.AddSingleton<ClientDetailPage>();
+            builder.Services.AddTransient<ClientDetailPage>();
+            builder.Services.AddTransient<DeviceDetailPage>();
+            builder.Services.AddTransient<DeviceDetailViewModel>();
 
 #if DEBUG
             builder.Logging.AddDebug();

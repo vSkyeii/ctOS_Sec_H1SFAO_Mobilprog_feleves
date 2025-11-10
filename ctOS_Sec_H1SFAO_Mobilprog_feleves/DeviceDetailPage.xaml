@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ctOS_Sec_H1SFAO_Mobilprog_feleves"
+             xmlns:local="clr-namespace:ctOS_Sec_H1SFAO_Mobilprog_feleves"
+             x:Class="ctOS_Sec_H1SFAO_Mobilprog_feleves.DeviceDetailPage"
+             Title="{Binding Sdevice.Name, StringFormat='Eszköz részletei: {0}'}"
+             x:DataType="vm:DeviceDetailViewModel">
+
+    <ContentPage.Resources>
+        <local:InverseBoolConverter x:Key="InverseBoolConverter" />
+
+        <local:BoolToColorConverter x:Key="OnlineColorConverter" 
+                                    TrueColor="{StaticResource Primary}" 
+                                    FalseColor="#AAAAAA" />
+
+        <local:BoolToTextConverter x:Key="OnlineTextConverter" 
+                                    TrueText="Active" 
+                                    FalseText="Deactivated" />
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="20">
+
+            <VerticalStackLayout IsVisible="{Binding Sdevice, Converter={StaticResource BoolToBoolConverter}}" Spacing="10">
+
+                <Label Text="Alapadatok" FontAttributes="Bold" FontSize="20" TextColor="{StaticResource Primary}"/>
+                <BoxView HeightRequest="1" Color="#CCCCCC"/>
+
+                <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto" RowSpacing="5">
+
+                    <Label Grid.Row="0" Grid.Column="0" Text="Eszköz neve:" FontAttributes="Bold"/>
+                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding Sdevice.Name}" FontSize="16"/>
+
+                    <Label Grid.Row="1" Grid.Column="0" Text="Azonosító (ID):" FontAttributes="Bold"/>
+                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding Sdevice.Id}"/>
+
+                    <Label Grid.Row="2" Grid.Column="0" Text="Típus:" FontAttributes="Bold"/>
+                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding Sdevice.Type}"/>
+                </Grid>
+
+                <BoxView HeightRequest="1" Color="#CCCCCC" Margin="0, 10, 0, 0"/>
+
+                <Label Text="Eszköz Állapot" FontAttributes="Bold" FontSize="20" TextColor="{StaticResource Primary}" Margin="0, 10, 0, 0"/>
+
+                <Button Text="{Binding Sdevice.IsOnline, Converter={StaticResource OnlineTextConverter}}"
+                        Command="{Binding ToggleDeviceOnlineStatusCommand}"
+                        HorizontalOptions="Fill"
+                        TextColor="White"
+                        BackgroundColor="{Binding Sdevice.IsOnline, Converter={StaticResource OnlineColorConverter}}"/>
+
+                <BoxView HeightRequest="1" Color="#CCCCCC" Margin="0, 10, 0, 0"/>
+
+                <Label Text="Hálózati Kapcsolat" FontAttributes="Bold" FontSize="20" TextColor="{StaticResource Primary}" Margin="0, 10, 0, 0"/>
+
+                <Button Text="Hálózati Kapcsolat Ellenőrzése" 
+                        Command="{Binding CheckNetworkConnectionCommand}"
+                        HorizontalOptions="Fill"/>
+
+                <Frame Padding="12" CornerRadius="8" BorderColor="#CCCCCC">
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Státusz:" FontAttributes="Bold"/>
+                        <Label Text="{Binding ConnectionStatus}" TextColor="{StaticResource Secondary}"/>
+                    </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

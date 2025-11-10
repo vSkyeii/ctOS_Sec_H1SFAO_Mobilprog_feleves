@@ -9,6 +9,7 @@
             Routing.RegisterRoute("Admin", typeof(AdminPage));
             Routing.RegisterRoute("ClientDetail", typeof(ClientDetailPage));
             Routing.RegisterRoute("newclient", typeof(AddClientPage));
+            Routing.RegisterRoute("DeviceDetail", typeof(DeviceDetailPage));
         }
     }
 }

@@ -138,7 +138,8 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
             {
                 ClientId = this.Id,
                 Name = NewDeviceName?.Trim(),
-                Type = NewDeviceType
+                Type = NewDeviceType,
+                IsOnline = false
             };
 
             await db.CreateDeviceAsync(device);
