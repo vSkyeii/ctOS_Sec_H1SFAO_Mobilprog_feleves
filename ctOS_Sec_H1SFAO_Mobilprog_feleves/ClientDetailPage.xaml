@@ -74,6 +74,7 @@
                             VerticalOptions="Start"
                             HorizontalOptions="End"/>
                 </Grid>
+                <Label Text="{Binding DisplayCooldown}"/>
                 <CollectionView ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" SelectionMode="Single" >
                     <CollectionView.Header>
                         <Label Text="DEvices" FontAttributes="Bold" Margin="0,8,0,4" />

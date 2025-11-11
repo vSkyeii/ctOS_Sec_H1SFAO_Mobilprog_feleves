@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
+using Microsoft.Maui.Devices.Sensors;
 
 namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
 {
@@ -29,11 +30,41 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
         [ObservableProperty] private DeviceType newDeviceType;
         public IReadOnlyList<DeviceType> DeviceTypes { get; } = Enum.GetValues<DeviceType>().ToList();
 
+        [ObservableProperty] private string displayCooldown = "Shake To Refresh";
         public ClientDetailViewModel(IctOSDatabase db, IUserContext userContext)
         {
             this.db = db;
             this.userContext = userContext;
             IsEditing = false;
+            if (Accelerometer.IsSupported)
+            {
+                Accelerometer.Default.ReadingChanged += Accelerometer_ReadingChanged;
+            }
+        }
+        public async void Accelerometer_ReadingChanged(object sender, AccelerometerChangedEventArgs e)
+        {
+            var data = e.Reading.Acceleration;
+            double threshold = 2.0;
+            if (Math.Abs(data.X) > threshold || Math.Abs(data.Y) > threshold || Math.Abs(data.Z) > threshold)
+            {
+                StopAccelerometer();
+                await ReloadDevicesAsync();
+                await Shell.Current.DisplayAlert("Frissítés", "Eszközlista sikeresen frissítve a telefon mozgásával!", "OK");;
+                DisplayCooldown = "Shake Gesture is On Cooldown";
+                OnPropertyChanged(nameof(DisplayCooldown));
+                await Task.Delay(20000);
+                DisplayCooldown = "Shake To Refresh";
+                OnPropertyChanged(nameof(DisplayCooldown));
+                StartAccelerometer();
+            }
+        }
+        public void StartAccelerometer()
+        {
+            Accelerometer.Default.Start(SensorSpeed.UI);
+        }
+        public void StopAccelerometer()
+        {
+            Accelerometer.Default.Stop();
         }
 
         public async Task LoadFromContextAsync()
@@ -143,7 +174,6 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
             };
 
             await db.CreateDeviceAsync(device);
-            await ReloadDevicesAsync();
             ClearDeviceForm();
             IsAddingDevice = false;
         }

@@ -13,6 +13,16 @@ public partial class ClientDetailPage : ContentPage
         if (BindingContext is ClientDetailViewModel vm)
         {
             await vm.LoadFromContextAsync();
+            vm.StartAccelerometer();
         }
+    }
+    protected override void OnDisappearing()
+    {
+        if (BindingContext is ClientDetailViewModel vm)
+        {
+            base.OnDisappearing();
+            vm.StopAccelerometer();
+        }
+
     }
 }
