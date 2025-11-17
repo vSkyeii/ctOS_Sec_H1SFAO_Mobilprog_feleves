@@ -60,11 +60,13 @@ namespace ctOS_Sec_H1SFAO_Mobilprog_feleves
         }
         public void StartAccelerometer()
         {
-            Accelerometer.Default.Start(SensorSpeed.UI);
+            if (Accelerometer.IsSupported) { Accelerometer.Default.Start(SensorSpeed.UI); }
+            
         }
         public void StopAccelerometer()
         {
-            Accelerometer.Default.Stop();
+            if(Accelerometer.IsSupported && Accelerometer.IsMonitoring) { Accelerometer.Default.Stop(); }
+            
         }
 
         public async Task LoadFromContextAsync()
